@@ -38,7 +38,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
         setContentView(R.layout.activity_main);
 
 
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             /*clear*/
             case R.id.btn_ac:
-                textView.setText("0");
+                textView.setText(null);
                 break;
 
             /*btn0 ~ btn9*/
@@ -194,6 +196,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 num1 = Integer.valueOf(myStringPlus);
                 textView.setText(null);
                 op = 1;
+                isEqualClicked = false;
                 break;
             case R.id.btn_minus:
                 String myStringMinus = textView.getText().toString();
@@ -202,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 num1 = Integer.valueOf(myStringMinus);
                 textView.setText(null);
+                isEqualClicked = false;
                 op = 2;
                 break;
             case R.id.btn_multiply:
@@ -211,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 num1 = Integer.valueOf(myStringMultiply);
                 textView.setText(null);
+                isEqualClicked = false;
                 op = 3;
                 break;
             case R.id.btn_division:
@@ -220,11 +225,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 num1 = Integer.valueOf(myStringDivision);
                 textView.setText(null);
+                isEqualClicked = false;
                 op = 4;
                 break;
 
+            /*case R.id.btn_sign:
+                String myStringSign = textView.getText().toString();
+                if(myStringSign.equals(null)) {
+                    textView.setText(null);
+                    isEqualClicked = false;
+                }
+                int num3 = Integer.valueOf(myStringSign);
+                num3 = (-num3);
+                textView.setText(String.valueOf(num3));*/
+
             /* "=" */
             case R.id.btn_equal:
+                if(isEqualClicked == true){
+                    return;
+                }
                 String myStringEqual = textView.getText().toString();
                 if(myStringEqual.equals(null)) {
                     textView.setText(num1);
@@ -259,6 +278,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 textView.setText(String.valueOf(result));
                 isEqualClicked = true;
+                op = 0;
                 break;
 
 
