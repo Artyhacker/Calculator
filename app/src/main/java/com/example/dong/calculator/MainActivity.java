@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn2.setOnClickListener(this);
         btn3.setOnClickListener(this);
         btnPlus.setOnClickListener(this);
+        btn0.setOnClickListener(this);
         btnPoint.setOnClickListener(this);
         btnEqual.setOnClickListener(this);
 
@@ -229,7 +230,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 op = 4;
                 break;
 
-            /*case R.id.btn_sign:
+            /* 正负号 */
+            case R.id.btn_sign:
                 String myStringSign = textView.getText().toString();
                 if(myStringSign.equals(null)) {
                     textView.setText(null);
@@ -237,9 +239,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 int num3 = Integer.valueOf(myStringSign);
                 num3 = (-num3);
-                textView.setText(String.valueOf(num3));*/
+                textView.setText(String.valueOf(num3));
 
-            /* "=" */
+            /* 等于号 */
             case R.id.btn_equal:
                 if(isEqualClicked == true){
                     return;
