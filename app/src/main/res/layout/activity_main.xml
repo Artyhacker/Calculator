@@ -12,7 +12,7 @@
         android:layout_height="180dp"
         android:background="#000000"
         android:textColor="#fffff0"
-        android:textSize="100dp"
+        android:textSize="70dp"
         android:gravity="bottom|right" />
 
     <LinearLayout
@@ -205,10 +205,18 @@
         android:divider="@drawable/separator_vertical"
         android:showDividers="middle">
         <Button
+            android:id="@+id/btn_back"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="30sp"
+            android:background="#C9CACE"
+            android:text="←"/>
+        <Button
             android:id="@+id/btn_0"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:textSize="30sp"
             android:text="0"
             android:background="#C9CACE"

@@ -1,7 +1,10 @@
 package com.example.dong.calculator;
 
+import android.renderscript.Double2;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -29,11 +32,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btn0;
     private Button btnPoint;
     private Button btnEqual;
+    private Button btnBack;
 
-    private int num1 = 0, num2 = 0; //两个操作数
+    private double num1 = 0, num2 = 0; //两个操作数
     private Boolean isEqualClicked = false; //是否按下等号
     private int op = 0; //区分运算符的状态数:1234分别代表加减乘除
-    private long result;
+    private Double result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             getSupportActionBar().hide();
         }
         setContentView(R.layout.activity_main);
-
 
 
         textView = (TextView) findViewById(R.id.text_view);
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn0 = (Button) findViewById(R.id.btn_0);
         btnPoint = (Button) findViewById(R.id.btn_point);
         btnEqual = (Button) findViewById(R.id.btn_equal);
+        btnBack = (Button) findViewById(R.id.btn_back);
 
         btnAc.setOnClickListener(this);
         btnSign.setOnClickListener(this);
@@ -85,16 +89,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn0.setOnClickListener(this);
         btnPoint.setOnClickListener(this);
         btnEqual.setOnClickListener(this);
+        btnBack.setOnClickListener(this);
 
     }
 
-    @Override
+
     public void onClick(View view) {
         switch (view.getId()) {
             /*clear*/
             case R.id.btn_ac:
                 textView.setText(null);
                 break;
+            case R.id.btn_back:
+                String myStringBack = textView.getText().toString();
+                if(myStringBack.equals(null)) {
+                    return;
+                }
+                myStringBack = myStringBack.substring(0,myStringBack.length()-1);
+                textView.setText(myStringBack);
+                break;
+
 
             /*btn0 ~ btn9*/
             case R.id.btn_0:
@@ -188,13 +202,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 textView.setText(myString9);
                 break;
 
+            case R.id.btn_point:
+                if(isEqualClicked) {
+                    textView.setText(null);
+                    isEqualClicked = false;
+                }
+                String myStringPoint = textView.getText().toString();
+                myStringPoint += ".";
+                textView.setText(myStringPoint);
+                break;
+
             /* 加减乘除 */
             case R.id.btn_plus:
                 String myStringPlus = textView.getText().toString();
                 if(myStringPlus.equals(null)) {
                     return;
                 }
-                num1 = Integer.valueOf(myStringPlus);
+                num1 = Double.valueOf(myStringPlus);
                 textView.setText(null);
                 op = 1;
                 isEqualClicked = false;
@@ -204,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(myStringMinus.equals(null)) {
                     return;
                 }
-                num1 = Integer.valueOf(myStringMinus);
+                num1 = Double.valueOf(myStringMinus);
                 textView.setText(null);
                 isEqualClicked = false;
                 op = 2;
@@ -214,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(myStringMultiply.equals(null)) {
                     return;
                 }
-                num1 = Integer.valueOf(myStringMultiply);
+                num1 = Double.valueOf(myStringMultiply);
                 textView.setText(null);
                 isEqualClicked = false;
                 op = 3;
@@ -224,22 +248,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(myStringDivision.equals(null)) {
                     return;
                 }
-                num1 = Integer.valueOf(myStringDivision);
+                num1 = Double.valueOf(myStringDivision);
                 textView.setText(null);
                 isEqualClicked = false;
                 op = 4;
                 break;
 
-            /* 正负号 */
+            /* 正负号,百分号 */
             case R.id.btn_sign:
                 String myStringSign = textView.getText().toString();
                 if(myStringSign.equals(null)) {
                     textView.setText(null);
                     isEqualClicked = false;
                 }
-                int num3 = Integer.valueOf(myStringSign);
+                double num3 = Double.valueOf(myStringSign);
                 num3 = (-num3);
                 textView.setText(String.valueOf(num3));
+                break;
+            case R.id.btn_percent:
+                String myStringPercent = textView.getText().toString();
+                if(myStringPercent.equals(null)) {
+                    textView.setText(null);
+                    isEqualClicked = false;
+                }
+                double num4 = Double.valueOf(myStringPercent);
+                num3 = num4 * 0.01;
+                textView.setText(String.valueOf(num3));
+                break;
 
             /* 等于号 */
             case R.id.btn_equal:
@@ -248,10 +283,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 String myStringEqual = textView.getText().toString();
                 if(myStringEqual.equals(null)) {
-                    textView.setText(num1);
+                    textView.setText(String.valueOf(num2));
                     isEqualClicked = true;
                 }
-                num2 = Integer.valueOf(myStringEqual);
+                num2 = Double.valueOf(myStringEqual);
                 textView.setText(null);
                 switch (op) {
                     case 0:
@@ -275,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                         break;
                     default:
-                        result = 0;
+                        result = 0.0;
                         break;
                 }
                 textView.setText(String.valueOf(result));
