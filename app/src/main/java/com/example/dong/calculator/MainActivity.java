@@ -313,7 +313,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         result = 0.0;
                         break;
                 }
-                textView.setText(String.valueOf(result));
+
+                if(result - Math.floor(result) == 0) {
+                    int result1 = (int)Math.floor(result);
+                    textView.setText(String.valueOf(result1));
+                } else {
+                    textView.setText(String.valueOf(result));
+                }
                 isEqualClicked = true;
                 op = 0;
                 break;
