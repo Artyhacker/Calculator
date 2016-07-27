@@ -1,8 +1,10 @@
 package com.example.dong.calculator;
 
+import android.content.Intent;
 import android.renderscript.Double2;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -324,8 +326,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 op = 0;
                 break;
 
-
         }
 
+    }
+    static int reg = 0;
+    public boolean onTouchEvent(MotionEvent event) {
+
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+        int lastX = 0, lastY = 0;
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                lastX = x;
+                lastY = y;
+                Log.d("Programmer","Action down");
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (((x - lastX) > 100) && (reg == 0)) {
+                    Intent intent = new Intent(MainActivity.this, ProgrammerActivity.class);
+                    startActivity(intent);
+                    reg = 1;
+                    Log.d("Programmer","start Programmer activity");
+                    break;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                reg = 0;
+                Log.d("Programmer","Action up");
+
+            default:
+                break;
+        }
+        return true;
     }
 }
