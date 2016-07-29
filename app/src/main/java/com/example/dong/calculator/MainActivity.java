@@ -321,7 +321,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     static int reg = 0;
     public boolean onTouchEvent(MotionEvent event) {
-        if(!textView.getText().toString().equals(null)) {
+        String myStringBack1 = textView.getText().toString();
+        if(myStringBack1.length() > 0) {
             int x = (int) event.getX();
             int y = (int) event.getY();
             int lastX = 0, lastY = 0;
