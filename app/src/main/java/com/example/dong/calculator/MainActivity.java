@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -34,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btn0;
     private Button btnPoint;
     private Button btnEqual;
-    private Button btnBack;
 
     private double num1 = 0, num2 = 0; //两个操作数
     private Boolean isEqualClicked = false; //是否按下等号
@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn0 = (Button) findViewById(R.id.btn_0);
         btnPoint = (Button) findViewById(R.id.btn_point);
         btnEqual = (Button) findViewById(R.id.btn_equal);
-        btnBack = (Button) findViewById(R.id.btn_back);
 
         btnAc.setOnClickListener(this);
         btnSign.setOnClickListener(this);
@@ -91,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn0.setOnClickListener(this);
         btnPoint.setOnClickListener(this);
         btnEqual.setOnClickListener(this);
-        btnBack.setOnClickListener(this);
 
     }
 
@@ -101,14 +99,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             /*clear*/
             case R.id.btn_ac:
                 textView.setText(null);
-                break;
-            case R.id.btn_back:
-                String myStringBack = textView.getText().toString();
-                if(myStringBack.equals(null)) {
-                    return;
-                }
-                myStringBack = myStringBack.substring(0,myStringBack.length()-1);
-                textView.setText(myStringBack);
                 break;
 
 
@@ -331,33 +321,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     static int reg = 0;
     public boolean onTouchEvent(MotionEvent event) {
+        if(!textView.getText().toString().equals(null)) {
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+            int lastX = 0, lastY = 0;
 
-        int x = (int) event.getX();
-        int y = (int) event.getY();
-        int lastX = 0, lastY = 0;
 
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                lastX = x;
-                lastY = y;
-                Log.d("Programmer","Action down");
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (((x - lastX) > 100) && (reg == 0)) {
-                    Intent intent = new Intent(MainActivity.this, ProgrammerActivity.class);
-                    startActivity(intent);
-                    reg = 1;
-                    Log.d("Programmer","start Programmer activity");
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    lastX = x;
+                    lastY = y;
                     break;
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                reg = 0;
-                Log.d("Programmer","Action up");
+                case MotionEvent.ACTION_MOVE:
+                    if (((x - lastX) > 800) && (reg == 0)) {
+                        String myStringBack = textView.getText().toString();
+                        myStringBack = myStringBack.substring(0, myStringBack.length() - 1);
+                        textView.setText(myStringBack);
+                        reg = 1;
+                        break;
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    reg = 0;
 
-            default:
-                break;
-        }
+                default:
+                    break;
+            }
+            return true;
+        } else
         return true;
     }
 }
