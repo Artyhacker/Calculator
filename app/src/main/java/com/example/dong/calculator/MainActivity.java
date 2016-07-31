@@ -310,8 +310,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 if(result - Math.floor(result) == 0) {
                     int result1 = (int)Math.floor(result);
-                   // DecimalFormat df = new DecimalFormat("###,###,###");
-
                     textView.setText(String.valueOf(result1));
                 } else {
                     textView.setText(String.valueOf(result));
